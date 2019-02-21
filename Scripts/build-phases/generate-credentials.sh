@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DERIVED_PATH=${SOURCE_ROOT}/DerivedSources
+DERIVED_PATH=${BUILT_PRODUCTS_DIR}/DerivedSources
 SCRIPT_PATH=${SOURCE_ROOT}/Credentials/replace_secrets.rb
 
 CREDS_INPUT_PATH=${SOURCE_ROOT}/Credentials/ApiCredentials.tpl

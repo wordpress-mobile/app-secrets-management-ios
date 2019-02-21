@@ -22,17 +22,12 @@ If the app uses our secrets reppository,
 
 1. Copy the `Scripts/build-phases` folder from this repo into the root of your app’s workspace folder.
 2. Copy the `Credentials` folder from this repo into the root of your app’s project folder.
-3. Create a `DerivedSources` folder in the root of your app's project folder.
-4. Add the following line to your project’s `.githubignore` to ignore the contents of the `DerivedSources` folder. Be sure to rename `[project folder]` appropriately.
-``` 
-[project folder]/DerivedSources/ 
-```
 
 
 ### Edit files for your project needs
 
 1. Open your Project in Xcode. 
-2. Select `File > Add Files` and add the `Credentials` and `DerivedSources` folders to your project.
+2. Select `File > Add Files` and add the `Credentials` folder to your project.
 3. Edit the following files to have the secrets your app needs:
 ```
 ApiCredentials.tpl
@@ -62,20 +57,18 @@ $(SRCROOT)/Credentials/Templates/InfoPlist-Template.h
 ```
 7. Under `Output Files` add the following:
 ```
-$(SRCROOT)/DerivedSources/ApiCredentials.swift
-$(SRCROOT)/DerivedSources/InfoPlist.h
+$(BUILT_PRODUCTS_DIR)/DerivedSources/ApiCredentials.swift
+$(BUILT_PRODUCTS_DIR)/DerivedSources/InfoPlist.h
 ```
 8. Open your application target’s build phases.
 9. Select `Target Dependencies` and add the `GenerateCredentials` target.
 
 
-### Add missing file references
+### Test
 
-1. Build your project.
-2. Select the `DerivedSources` folder and choose `File > Add files`. 
-3. Add the `ApiCredentials.swift` and `InfoPlist.h` files to your project.
-4. Inspect the files.  They should be populated with your app’s secrets. 
-5. Build and Run. Confirm your app works as expected.
+1. Build and Run. Confirm your app works as expected.  
+
+Bonus: Inspect your application's build directory. Find the DerivedSources folder and confirm it contains your credential files.
 
 
 
