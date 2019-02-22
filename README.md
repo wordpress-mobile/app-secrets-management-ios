@@ -22,20 +22,33 @@ If the app uses our secrets reppository,
 
 1. Copy the `Scripts/build-phases` folder from this repo into the root of your app’s workspace folder.
 2. Copy the `Credentials` folder from this repo into the root of your app’s project folder.
+3. Navigate to `Credentials/Templates` in Finder. Copy the `Templates` folder, and paste a new copy in your app's project folder.  Rename `Templates` to `DerivedSources`.  Rename `DerivedSources/ApiCredentials-Template.swift` to `DerivedSources/ApiCredentials.swift` and rename `DerivedSources/InfoPlist-Template.h` to `DerivedSources/InfoPlist.h`
 
 
 ### Edit files for your project needs
 
 1. Open your Project in Xcode. 
 2. Select `File > Add Files` and add the `Credentials` folder to your project.
-3. Edit the following files to have the secrets your app needs:
+3. Edit the following files to have placeholders for the secrets your app needs:
 ```
 ApiCredentials.tpl
 InfoPlist.tpl 
 Templates/ApiCredentials-Template.swift
 Templates/InfoPlist-Template.h
 ```
-4. Remove the reference to the `Credentials/Templates` folder from your project. Leaving it will cause build errors later.
+4. If you included a reference to the `Credentials/Templates` folder remove the reference (but do not delete) from your project. Leaving it will cause build errors later.
+
+This next part might be a little tricky.  We need to create a reference to a `DerivedSources` folder that's located in the build folder as opposed to the project folder.
+
+5. Select `File > Add Files` and add the `DerivedSources` folder to your project.  Make sure this is added as a Group and not a Folder Reference.
+6. Select the `DerivedSources` folder. Right click and choose *Show File Inspector*.
+7. In the *Identity and Type* panel, change the *Location* dropdown to be *Relative to Build Products*
+8. Tap the folder icon below the drop down.
+9. Navigate to `/Users/you/Library/Developer/Xcode/DerivedData/your-app/Build/Products`.  
+10. Create a new folder and name it `DerivedSources`.
+11. Select the folder.  
+
+Your project reference to DerivedSources should now point to the folder in the build directory. You can safely open Finder and remove the `DerivedSources` folder from your project folder.
 
 
 ### Configure project build settings and build phases
@@ -49,16 +62,11 @@ Templates/InfoPlist-Template.h
 6. Under `Input Files` add the following:
 ```
 $(SRCROOT)/Credentials/replace_secrets.rb
-$(SRCROOT)/Credentials/ApiCredentials.tpl
-$(SRCROOT)/Credentials/InfoPlist.tpl
-~/.mobile-secrets/iOS/yourapp/yourapp_credentials.json (or whatever is the path to your secrets file)
-$(SRCROOT)/Credentials/Templates/APICredentials-Template.swift
-$(SRCROOT)/Credentials/Templates/InfoPlist-Template.h
 ```
 7. Under `Output Files` add the following:
 ```
-$(BUILT_PRODUCTS_DIR)/DerivedSources/ApiCredentials.swift
-$(BUILT_PRODUCTS_DIR)/DerivedSources/InfoPlist.h
+$(BUILT_PRODUCTS_DIR)/../DerivedSources/ApiCredentials.swift
+$(BUILT_PRODUCTS_DIR)/../DerivedSources/InfoPlist.h
 ```
 8. Open your application target’s build phases.
 9. Select `Target Dependencies` and add the `GenerateCredentials` target.
