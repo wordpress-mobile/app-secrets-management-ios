@@ -15,7 +15,7 @@ Follow these steps to configure application secret management in an iOS app.  It
 If the app uses our secrets reppository, 
 1. Navigate to `~/.mobile-secrets/iOS/`
 2. Create a new folder for your app and add a JSON file with your apps secrets.  
-3. Commit the changes and push them to master.
+3. Commit the changes and push them to trunk.
 
 
 ### Copy files and folders
